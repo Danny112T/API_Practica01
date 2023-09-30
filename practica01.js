@@ -626,11 +626,19 @@ app.get("/proyecto/:id/registrosPorPagina", (req, res) => {
     (tarea) => tarea.id_proyecto == id
   ).slice(startIndex, endIndex);
 
-  res.status(200).json({
-    estado: 1,
-    mensaje: "Tareas del proyecto paginadas",
-    tareas: tareasProyecto,
-  });
+  if (!tareasProyecto || tareasProyecto.length == 0){
+    res.status(404).json({
+      estado: 0,
+      mensaje: "No se encontraron tareas",
+      tareas: null
+    });
+  } else {
+      res.status(200).json({
+      estado: 1,
+      mensaje: "Tareas del proyecto paginadas",
+      tareas: tareasProyecto,
+    });
+  }
 });
 
 
